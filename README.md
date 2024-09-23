@@ -1,4 +1,12 @@
 Ini adalah template login page MikroTik khusus yang terintegrasi dengan NiceRadius https://niceradius.ccom
+Fitur yang tersedia saat ini :
+- Auto Close Session
+
+Fitur ini dugunakan untuk mengatasi masalah random MAC address yang sering menyebabkan kegagalan login dikarenakan MAC Address perangkat pelanggan anda telah berubah setelah terhubung ke SSID yang berbeda.
+
+- Payment Gateway Duitku
+
+Penjualan voucher WiFi dengan metode pembayaran QRIS, OVO, DANA, LinkAja, ShopeePay dan Bank Transfer
 
 Sebelum menggunakannya, Anda harus mendaftar terlebih dahulu untuk mendapatkan API_KEY dan RouterID anda : https://niceradius.com/auth/signup
 
