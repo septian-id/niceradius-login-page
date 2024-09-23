@@ -1,4 +1,5 @@
-Ini adalah template login page MikroTik khusus yang terintegrasi dengan NiceRadius https://niceradius.ccom
+Ini adalah template login page MikroTik khusus yang terintegrasi dengan NiceRadius https://niceradius.com
+
 Fitur yang tersedia saat ini :
 - Auto Close Session
 
