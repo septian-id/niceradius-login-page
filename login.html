@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/toastr/toastr.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/ubuntu.css">
+	<link id="theme" rel="stylesheet" type="text/css" href="assets/css/theme-indigo.css">
+	<title></title>
+	<style type="text/css">
+        @media only screen and (min-width: 400px){
+            body{
+                max-width: 480px !important;
+                margin: 0 auto !important;
+                border-right: 1px solid #CCC!important;
+                border-left: 1px solid #CCC!important;
+                .main{
+                	border-radius: 10px;
+                }
+            }
+        }
+        *{text-decoration: none; outline: none;}
+        .main{min-height: 100vh;}
+	</style>
+</head>
+<body class="light-gray">
+	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/qrcode.js"></script>
+	<script type="text/javascript" src="assets/toastr/toastr.min.js"></script>
+	<script type="text/javascript" src="config.js"></script>
+	
+	<div class="main white">
+		<div class="bar theme">
+		    <span class="bar-item">
+		        <i class="fa fa-home"></i>
+		        <span id="company"></span>
+		    </span>
+		    <a href="login.html?page=0" class="nav bar-item button right"><i class="fa fa-search"></i></a>
+		</div>
+		<div class="row theme-d2 center margin-bottom small">
+			<a href="login.html?page=1" class="nav button col s3 center padding-small"><i class="fa fa-ticket fa-lg"></i><br>Voucher</a>
+			<a href="login.html?page=2" class="nav button col s3 center padding-small"><i class="fa fa-user fa-lg"></i><br>Member</a>
+			<a href="login.html?page=3" class="nav button col s3 center padding-small"><i class="fa fa-bullhorn fa-lg"></i><br>Info</a>
+			<a href="login.html?page=4" class="nav button col s3 center padding-small"><i class="fa fa-star fa-lg"></i><br>Transaksi</a>
+		</div>
+		
+		<div class="page padding-small animate-bottom hide">
+			<p class="text-theme" align="center">Check Status</p>
+			<input type="text" id="check" class="input border round theme-l5 margin-bottom" placeholder="Kode Voucher" required>
+		    <button id="btn_check" class="button border round theme block margin-bottom">Check</button>
+		    
+		    <div id="status"></div>
+		</div>
+		
+		<div class="page padding-small animate-bottom hide">
+			<div class="border-left border margin-bottom padding-small">
+			    <span id="date" class="small text-theme"></span>
+			    <span id="time" class="small text-theme right"></span>
+			</div>
+			
+			<div>
+			    <style>
+			        .mySlides {display:none}
+			        left, right, badge {cursor:pointer}
+			        badge {height:13px;width:13px;padding:0}
+			    </style>
+			    <div id="slideShow" class="content display-container" style="max-width:800px">
+                    <div class="center container section large text-white display-bottommiddle" style="width:100%">
+                        <div class="left hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
+                        <div class="right hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
+                    <span class="badge demo border transparent hover-white" onclick="currentDiv(1)"></span>
+                    <span class="badge demo border transparent hover-white" onclick="currentDiv(2)"></span>
+                    <span class="badge demo border transparent hover-white" onclick="currentDiv(3)"></span>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                    var slideIndex = 1;
+                    
+                    function plusDivs(n) {
+                      showDivs(slideIndex += n);
+                    }
+                    
+                    function currentDiv(n) {
+                      showDivs(slideIndex = n);
+                    }
+                    
+                    function showDivs(n) {
+                      var i;
+                      var x = document.getElementsByClassName("mySlides");
+                      var dots = document.getElementsByClassName("demo");
+                      if (n > x.length) {slideIndex = 1}
+                      if (n < 1) {slideIndex = x.length}
+                      for (i = 0; i < x.length; i++) {
+                        x[i].style.display = "none";  
+                      }
+                      for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" white", "");
+                      }
+                      x[slideIndex-1].style.display = "block";  
+                      dots[slideIndex-1].className += " white";
+                    }
+                </script>
+			</div>
+			
+			<form id="login_voucher" name="login_voucher" action="$(link-login-only)" method="post">
+				<input type="hidden" name="dst" value="$(link-orig)" />
+				<input type="hidden" name="popup" value="true" />
+				<p align="center" class="text-gray">Silahkan masukan kode voucher anda</p>
+				<table class="table">
+					<tr>
+						<td style="padding:1px">
+							<input type="text" name="username" class="input border round theme-l5 margin-bottom" placeholder="Kode Voucher" required>
+							<input type="hidden" name="password" class="input border round theme-l5 margin-bottom" placeholder="Password" required>
+						</td>
+						<td style="padding:1px">
+							<button id="btn_voucher" class="button block border round theme margin-bottom">Masuk</button>
+						</td>
+					</tr>
+				</table>
+
+				<table class="table text-gray border round margin-bottom topbar border-theme" id="pricing"></table>
+
+				<p align="center"><span class="text-theme">Contact Person</span><br><b id="contact" class="text-gray"></b></p>
+			</form>
+		</div>
+
+		<div class="page padding-small animate-bottom hide">
+			<form id="login_member" name="login_member" action="$(link-login-only)" method="post">
+				<input type="text" name="username" class="input border round theme-l5 margin-bottom" placeholder="Username" required>
+				<input type="text" name="password" class="input border round theme-l5 margin-bottom" placeholder="Password" required>
+				<button id="btn_member" class="button block border round theme margin-bottom">Masuk</button>
+			</form>
+		</div>
+
+		<div class="page padding-small animate-bottom hide">
+			<div id="notice">
+			    <div id="noticeList"></div>
+			</div>
+		</div>
+
+		<div class="page padding-small animate-bottom hide">
+			<p class="text-theme" align="center">Riwayat Transaksi</p>
+			<span class="text-theme">Nomor Telepon</span>
+			<input type="number" id="customerPhone" class="input border round margin-bottom theme-l5" required>
+			<button id="btnCheckTransaction" class="button block border round theme margin-bottom">Cek Transaksi</button>
+			<div id="transaction"></div>
+		</div>
+		
+		<div class="page padding-small animate-bottom margin-bottom hide">
+			<div id="page_confirm">
+			<p align="center"><b class="text-theme">Konfirmasi Pembayaran</b></p>
+			<p align="center" class="text-gray">Silahkan lengkapi informasi konsumen sebagai berikut</p>
+			<input type="hidden" name="item_id" id="item_id" value="#" required>
+			<span class="text-theme">Nama</span>
+			<input type="text" id="customer_name" name="first_name" class="input border round margin-bottom theme-l5" required>
+
+			<span class="text-theme">Nomor Telepon</span>
+			<input type="number" id="customer_phone" name="phone" class="input border round margin-bottom theme-l5"required>
+ 			
+ 			<span class="text-theme">Metode Pembayaran</span>
+ 			<select id="payment_method" class="input border round margin-bottom" required></select>
+            <p align="left" class="text-gray">Kami akan mengirimkan invoice melalui WhatsApp, Pastikan informasi yang anda masukan adalah data yang valid.</p>
+			<button id="btnCheckout"  class="button border round theme block">Konfirmasi</button>
+			</div>
+		</div>
+	</div>
+
+	<form name="sendin" action="$(link-login-only)" method="post">
+		<input type="hidden" name="username" />
+		<input type="hidden" name="password" />
+		<input type="hidden" name="dst" value="$(link-orig)" />
+		<input type="hidden" name="popup" value="true" />
+	</form>
+	
+	<script type="text/javascript" src="md5.js"></script>
+	<script type="text/javascript">
+		function number_format(x){return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");}
+
+		var permission = 'false';
+		$(document).ready(function(){
+			const nav = document.getElementsByClassName("nav");
+			const page = document.getElementsByClassName("page");
+			const name = document.getElementsByClassName("name");
+
+			const url = new URL(window.location);
+			const routes = url.searchParams.get('page');
+			
+			for(x = 0; x < page.length; x++){
+				page[x].classList.add('hide');
+			}
+			if(routes == null || routes == ''){
+				nav[1].classList.add('theme-d5');
+				nav[1].classList.add('animate-top');
+				page[1].classList.remove('hide');
+			}else{
+				try{
+					nav[routes].classList.add('theme-d5');
+			      //nav[routes].classList.add('animate-fading');
+					page[routes].classList.remove('hide');
+				}catch (err){
+					page[routes].classList.remove('hide');
+				}
+			}
+			
+			$.ajax({
+				url: apiUrl + '/preferences',
+				type: "POST",
+				data: {
+					"apiKey" : apiKey,
+					"routerID" : routerID
+				},
+				success: function(result){
+					$('#company').html(result.company);
+					$('#contact').html(result.phone);
+					permission = result.permission;
+					console.log(result);
+				}
+			});
+			
+			if(routes == '3'){
+    			$.ajax({
+    			    url: apiUrl + '/notice',
+    			    type: 'POST',
+    			    data: {
+    			        "apiKey" : apiKey,
+    			        "routerID" : routerID
+    			    },
+    			    success: function(notice){
+    			        $.each(notice, (index,row) => {
+    			            $('#noticeList').prepend(`
+    			                <div class="light-gray border round padding margin-bottom" style="line-height:17px">
+    			                    <span class="right tiny text-gray">${row.date}</span>
+    			                    <span class="text-theme">${row.title}</span><br>
+    			                    <span class="text-gray">${row.content}</span>
+    			                </div>
+    			            `);
+    			        });
+    			        console.log(notice);
+    			    }
+    			});
+			}
+			
+			$.ajax({
+			    url: apiUrl + '/images',
+			    type: "POST",
+			    data: {
+			        "apiKey" : apiKey,
+			        "routerID" : routerID
+			    },
+			    success: function(images){
+			        console.log(images);
+			        $.each(images, (index, img) => {
+			            $('#slideShow').prepend(`<img class="mySlides" src="${img.url}" style="width:100%">`);
+			        });
+			        showDivs(slideIndex);
+			        setInterval(function(){
+			            plusDivs(1);
+			        },6000);
+			    }
+			});
+			
+			$.ajax({
+				url: apiUrl + '/pricing',
+				type: "POST",
+				data: {"apiKey" : apiKey},
+				success: function(result){
+					console.log(result);
+					$.each(result, (key, val) => {
+						$('#pricing').append(`
+							<tr class="hover-pale-green">
+								<td>${val['name']}</td>
+								<td>${val['price']}</td>
+								<td style="text-align:right">
+									<a href="?page=5&id=${val['id']}" class="button border round padding-small green"><i class="fa fa-shopping-cart"></i> Beli</a>
+								</td>
+							</tr>
+						`);
+					})
+				}
+			});
+
+			if(routes == 5){
+				var item_id = url.searchParams.get('id');
+				$.ajax({
+					url: apiUrl + '/payment_method',
+					type: "POST",
+					data: {
+						"apiKey" : apiKey,
+						"item_id" : item_id
+					},
+					success: function(data){
+						console.log(data);
+						$.each(data, (key, val) => {
+							$('#payment_method').append(`<option value="${val.paymentMethod}">${val.paymentName}</option>`);
+						});
+					}
+				});
+			}
+			$('#btnCheckout').click(function(){
+				var item_id = url.searchParams.get('id');
+				var customer_name = $('#customer_name').val();
+				var customer_phone = $('#customer_phone').val();
+				var payment_method = $('#payment_method').val();
+
+				if(!item_id || !customer_name || !customer_phone || !payment_method){
+				    toastr["warning"]("Silahkan lengkapi data konsumen dan pilih metode pembayaran.")
+				}
+				else{
+					$(this).html('<i class="fa fa-refresh spin"></i> Mohon Tunggu...');
+					$.ajax({
+						url: apiUrl + '/checkout',
+						type: 'POST',
+						data: {
+							"apiKey" : apiKey,
+							"item_id" : item_id,
+							"name" : customer_name,
+							"phone" : customer_phone,
+							"paymentMethod" : payment_method,
+							"returnUrl" : "$(link-login-only)"
+						},
+						success: function(data){
+							if(!data.paymentUrl){
+								toastr["error"]("Terjadi kesalahan saat membuat pesanan anda, Silahkan coba lagi atau gunakan metode pembayaran yang lain.","Error");
+							}else{
+								window.location.href = data.paymentUrl;
+							}
+							console.log(data);
+							$('#btnCheckout').html('Konfirmasi');
+						}, error: function(err){
+							toastr["error"]("Terjadi kesalahan saat membuat pesanan anda, Silahkan coba lagi atau gunakan metode pembayaran yang lain.","Error");
+							$('#btnCheckout').html('Konfirmasi');
+						}
+					});
+				}
+			});
+
+			$('#btnCheckTransaction').click(function(){
+				var customerPhone = $('#customerPhone').val();
+				if(!customerPhone){}
+				else{
+					$(this).html('<i class="fa fa-refresh spin"></i> Mohon Tunggu...');
+					$.ajax({
+						url: apiUrl + '/get_transaction',
+						type: 'POST',
+						data: {
+							"apiKey" : apiKey,
+							"phone" : customerPhone
+						},
+						success: function(data){
+							if(data.length == 0){
+								toastr["error"]("Tidak ada riwayat transaksi, Pastikan nomor yang anda masukan sudah sesuai","Error");
+							}else{
+								console.log(data);
+								$('#transaction').html('');
+								$.each(data, (index, val) => {
+									var paymentButton = '';
+									if(val.paymentStatus == 'pending'){
+										paymentButton = `<a href="${val.paymentUrl}" class="right button border round red padding-small">Bayar Sekarang</a>`;
+									}else{
+										paymentButton = '<b href="#" class="right text-green">LUNAS</b>'
+									}
+									$('#transaction').prepend(`
+										<div class="border round card white padding-small margin-bottom small">
+											${paymentButton}
+											<span class="text-theme">Order ID</span><br>
+											<span>${val.orderID}</span><br><br>
+
+											<span class="text-theme">Tanggal</span><br>
+											<span>${val.date}</span><br><br>
+
+											<span class="text-theme">Kode Voucher</span><br>
+											<span>${val.voucherCode}</span><br><br>
+
+											<span class="text-theme">Metode Pembayaran</span><br>
+											<span>${val.paymentMethod}</span><br><br>
+
+											<span class="text-theme">Status Transaksi</span><br>
+											<span>${val.paymentStatus}</span><br><br>
+
+											<span class="text-theme">Jumlah</span><br>
+											<span>${val.paymentAmount}</span><br><br>
+										</div>
+									`);
+								});
+							}
+							console.log(data);
+							$('#btnCheckTransaction').html('Cek Transaksi');
+						}, error: function(err){
+							toastr["error"]("Terjadi kesalahan saat memuat data, SIlahkan coba lagi.","Error");
+							$('#btnCheckTransaction').html('Cek Transaksi');
+						}
+					});
+				}
+			})
+		});
+
+		function doLogin(mode){
+			if(mode == 'voucher'){
+				document.sendin.username.value = document.login_voucher.username.value;
+				document.sendin.password.value = hexMD5('$(chap-id)' + document.login_voucher.username.value + '$(chap-challenge)');
+				$('#btn_voucher').html('<i class="fa fa-refresh spin"></i>');
+			}else{
+				document.sendin.username.value = document.login_member.username.value;
+				document.sendin.password.value = hexMD5('$(chap-id)' + document.login_member.password.value + '$(chap-challenge)');
+				$('#btn_member').html('<i class="fa fa-refresh spin"></i>');
+			}
+			if(permission == 'true'){
+				$.ajax({
+					url: apiUrl + '/clear_session',
+					type: "POST",
+					data: {
+						"apiKey" : apiKey,
+						"routerID" : routerID,
+						"username" : document.sendin.username.value
+					},
+					success: function(result){
+						console.log(result);
+						if(result.status == 'success'){
+							document.sendin.submit();
+						}else{
+							document.sendin.submit();
+						}
+					},
+					error: function(err){
+						console.log(err);
+						document.sendin.submit();
+					}
+				});
+			}else{
+				document.sendin.submit();
+			}
+			return false;
+		}
+
+		$('#login_voucher').on('submit', (e) => {e.preventDefault(); doLogin('voucher'); });
+		$('#login_member').on('submit', (e) => {e.preventDefault(); doLogin('member'); });
+
+		function showTime(){
+			var a_p = "";
+			var today = new Date();
+			var curr_hour = today.getHours();
+			var curr_minute = today.getMinutes();
+			var curr_second = today.getSeconds();
+			if (curr_hour < 12){a_p = "AM";}
+			else{a_p = "PM";}
+			if(curr_hour==0){curr_hour=12;}
+			if (curr_hour>12){curr_hour = curr_hour- 12;}
+			curr_hour = checkTime(curr_hour);
+			curr_minute = checkTime(curr_minute);
+			curr_second = checkTime(curr_second);
+			$("#time").html(curr_hour + ":" + curr_minute + ":" + curr_second + " " + a_p);    
+		}
+		function checkTime(i){if(i<10) {i="0"+i;}return i;}
+		setInterval(showTime, 600);
+		var months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+		var myDays = ['Minggu','Senin','Selasa','Rabu','Kamis','Jum&#39;at','Sabtu'];
+		var date = new Date();
+		var day = date.getDate();
+		var month = date.getMonth();
+		var thisDay = date.getDay(),
+		thisDay = myDays[thisDay];
+		var yy = date.getYear();
+		var year = (yy < 1000) ? yy + 1900 : yy;
+		$("#date").html(thisDay + ', ' + day + ' ' + months[month] + ' ' + year);
+	</script>
+	<div style="display:none">$(if error)<script type="text/javascript">toastr["error"]("$(error)","Error");</script>$(endif)</div>
+</body>
+</html>

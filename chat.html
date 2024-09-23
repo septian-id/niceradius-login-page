@@ -1,0 +1,89 @@
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<style type="text/css">
+    *{text-decoration:none; outline: none;}
+    .chat {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: auto;
+  max-height: 310px;
+  overflow: scroll;
+}
+.msg {
+  position: relative;
+  max-width: 75%;
+  padding: 7px 15px;
+  margin-bottom: 6px;
+}
+.msg.sent {
+  border-radius: 0px 20px 0px 20px;
+  margin-left: auto;
+}
+.msg.recv {
+  border-radius: 20px 0px 20px 0px;
+  margin-right: auto;
+}
+</style>
+
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="config.js"></script>
+
+<!--<div class="chat padding-small" id="message" style="max-height:300px; overflow: scroll"></div>-->
+<div class="chat" id="message"></div>
+
+<div class="bottom padding-small">
+    <input type="text" id="text" name="text" class="input border round" placeholder="Ketik pesan.." required>
+</div>
+
+<script type="text/javascript">
+var mac_address = "$(mac)";
+//var mac_address = 'F6:93:01:72:86:38';
+    
+    function load(){
+        $.getJSON(api_url + '/get_message/' + mac_address, (data) => {
+            console.log(data);
+            $('#message').html('');
+            $.each(data, (index, row) => {
+                if(row.from == 'user'){
+                    $('#message').append(`
+                        <div class="msg sent pale-red">${row.text}</div>
+                    `);
+                }
+                if(row.from == 'admin'){
+                    $('#message').append(`
+                        <div class="msg recv white">${row.text}</div>
+                    `);
+                }
+            });
+            document.getElementById('message').scrollTop = document.getElementById('message').scrollHeight;
+        });
+    }
+    function send(text){
+        $.post(api_url + '/send_message', {
+            'mac_address' : mac_address,
+            'text' : text
+        },(result) => {
+            load();
+        });
+    }
+    
+    $(document).ready((e) => {
+        $('#text').on('keypress', (t) => {
+            if(t.which == 13){
+                var text = $('#text').val();
+                if(text == ''){
+                    alert('Pesan tidak boleh kosong');
+                }
+                else{
+                    if(mac_address == '' || mac_address == null){
+                        alert('Invalid MAC Address');
+                    }else{
+                        $('#text').val('');
+                        send(text);
+                    }
+                }
+            }
+        });
+        load();
+    });
+</script>
