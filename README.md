@@ -1,3 +1,7 @@
+Preview Default Template :
+
+![Screenshot 2024-09-26 10:35:29](https://github.com/user-attachments/assets/284a0296-ee90-4fe0-8c82-1d0bff0e4178)
+
 Ini adalah template login page MikroTik khusus yang terintegrasi dengan NiceRadius https://niceradius.com
 
 Fitur yang tersedia saat ini :
