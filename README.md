@@ -28,3 +28,5 @@ add action=accept disabled=no dst-host=niceradius.com
 add action=accept disabled=no dst-host=duitku.com
 ```
 Setelah itu, Sesuaikan HTML Directory pada server profile hotspot anda.
+
+Jika anda ingin membuat sendiri login page MikroTik dan mengintegrasikannya dengan fitur yang ada di NiceRadius, Lihat dokumentasi API disini : https://github.com/septian-id/NiceRadius-API
